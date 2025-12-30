@@ -10,12 +10,27 @@ Since Apple changed their authentication protocol, you must provide a browser se
 
 ### Step 1: Extract Your Cookie
 
-1. Open **Chrome Incognito** or **Safari Private Window**
+1. Open a **regular browser window** (not private/incognito — you want the longer session)
 2. Navigate to `https://icloud.com` and log in
 3. **Critical:** When prompted for 2FA, check ✅ **"Trust this browser"** (extends session to ~2 months)
-4. Open Developer Tools (`F12` or `Cmd+Option+I`) → **Network Tab**
-5. Refresh the page and filter for `validate` or `setup.icloud.com`
-6. Click any request → **Request Headers** → Copy the full `Cookie:` value
+4. Open Developer Tools (`F12` or `Cmd+Option+I`)
+5. Go to the **Network** tab
+6. Click around in iCloud (open Mail, Drive, etc.) to generate some requests — or just refresh the page
+7. Find the cookie (see browser-specific instructions below)
+
+#### Chrome
+1. In the Network tab, click any request to `icloud.com` or `setup.icloud.com`
+2. In the right panel, click the **Headers** tab
+3. Scroll down to the **Request Headers** section (not Response Headers!)
+4. Find the row labeled `cookie:` — right-click it → **Copy value**
+
+#### Safari
+1. In the Network tab, click any request (e.g., `getToken`, `getFamilyDetails`, or anything to `setup.icloud.com`)
+2. A details panel will appear
+3. Look for **Request Headers**
+4. Find the `Cookie:` line and copy everything after it
+
+> ⚠️ **Note:** `document.cookie` in the Console won't work — Apple's auth cookies are HttpOnly and invisible to JavaScript. You must use the Network tab.
 
 ### Step 2: Configure the Extension
 
