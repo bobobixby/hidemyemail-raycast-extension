@@ -10,6 +10,16 @@
   ],
   "license": "MIT",
   "categories": ["Productivity"],
+  "preferences": [
+    {
+      "name": "sessionCookie",
+      "title": "iCloud Session Cookie",
+      "description": "Paste the full 'Cookie' header from a logged-in icloud.com session. This bypasses the broken SRP login.",
+      "type": "password",
+      "required": false,
+      "placeholder": "X-APPLE-WEBAUTH-USER=..."
+    }
+  ],
   "commands": [
     {
       "name": "list-emails",

@@ -21,7 +21,7 @@ import {
   iCloudNetworkError,
   iCloudServiceNotActivatedError,
 } from "./errors";
-import { LocalStorage } from "@raycast/api";
+import { LocalStorage, getPreferenceValues } from "@raycast/api";
 import { getNestedHeader, hashPassword } from "./utils";
 
 interface ErrorData {
@@ -48,6 +48,8 @@ export class iCloudSession {
   }
 
   async init() {
+    const prefs = getPreferenceValues<{ sessionCookie?: string }>();
+
     const cookieJarData = await LocalStorage.getItem<string>(this.service.cookieJarKey);
     if (cookieJarData) {
       const parsedCookies = JSON.parse(cookieJarData);
@@ -62,6 +64,13 @@ export class iCloudSession {
         timeout: 5000,
       }),
     );
+
+    // COOKIE BYPASS: Inject session cookie from preferences
+    if (prefs.sessionCookie) {
+      this.instance.defaults.headers.common["Cookie"] = prefs.sessionCookie;
+      this.instance.defaults.headers.common["Origin"] = "https://www.icloud.com";
+      this.instance.defaults.headers.common["Referer"] = "https://www.icloud.com/";
+    }
 
     // Handles 409 status code
     this.instance.interceptors.response.use(
@@ -230,6 +239,25 @@ export class iCloudService {
   }
 
   async authenticate(password: string | null = null) {
+    const prefs = getPreferenceValues<{ sessionCookie?: string }>();
+
+    // COOKIE BYPASS MODE: If session cookie is provided, directly validate
+    if (prefs.sessionCookie) {
+      try {
+        const data = await this.validateToken();
+        this.data = data;
+        this.webservices = this.data?.webservices;
+        return; // Success - skip all SRP logic
+      } catch (error) {
+        // Cookie expired or invalid
+        throw new iCloudFailedLoginError(
+          "Session expired. Please update your Cookie in Preferences (Cmd+,).",
+          { cause: error }
+        );
+      }
+    }
+
+    // LEGACY MODE: SRP-based authentication (may not work due to Apple changes)
     let loginSuccessful = false;
     if (this.sessionData?.sessionToken) {
       try {

@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Form, LocalStorage, showToast, Toast } from "@raycast/api";
+import { Form, LocalStorage, showToast, Toast, getPreferenceValues } from "@raycast/api";
 import { iCloudService } from "../api/connect";
 import TwoFactorAuthForm from "./forms/TwoFactorAuthForm";
 import { LoginForm } from "./forms/LoginForm";
@@ -20,6 +20,38 @@ export function Login({ onLogin }: { onLogin: (service: iCloudService) => void }
     if (!effectRan.current) {
       effectRan.current = true;
       (async () => {
+        const prefs = getPreferenceValues<{ sessionCookie?: string }>();
+
+        // COOKIE BYPASS: Fast-track if session cookie is provided
+        if (prefs.sessionCookie) {
+          const iService = new iCloudService("cookie-session-user");
+          await iService.init();
+
+          const toast = await showToast({ style: Toast.Style.Animated, title: "Authenticating via cookie..." });
+          try {
+            await iService.authenticate();
+
+            if (!iService.hideMyEmail.isActive()) {
+              toast.style = Toast.Style.Failure;
+              toast.title = "Unable to access service";
+              toast.message = "Are you sure the Hide My Email feature is activated?";
+              setIsAuthenticated(AuthState.UNAUTHENTICATED);
+              return;
+            }
+
+            onLogin(iService);
+            toast.style = Toast.Style.Success;
+            toast.title = "Logged in";
+          } catch (error) {
+            toast.style = Toast.Style.Failure;
+            toast.title = "Session Failed";
+            toast.message = (error as { message: string }).message;
+            setIsAuthenticated(AuthState.UNAUTHENTICATED);
+          }
+          return;
+        }
+
+        // LEGACY PATH: Check for stored Apple ID
         const appleID = await LocalStorage.getItem<string>("appleID");
         if (!appleID) {
           setIsAuthenticated(AuthState.UNAUTHENTICATED);
