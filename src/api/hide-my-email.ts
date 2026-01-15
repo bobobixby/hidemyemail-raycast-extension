@@ -40,7 +40,9 @@ export class HideMyEmailService {
   }
 
   async getAllAdresses() {
-    const response = await this.session.request("get", `${this.emailEndpointGet}/list`, {}, false);
+    const response = await this.session.request("get", `${this.emailEndpointGet}/list`, {
+      headers: { "Content-Type": "application/json" },
+    }, false);
     if (response.data.success === false) {
       console.log("Failed to fetch addresses: ", response.data);
       throw new iCloudAPIResponseError(response.data.error.errorMessage, response.data.error.errorCode);
@@ -52,7 +54,10 @@ export class HideMyEmailService {
     const endPoint = `${this.emailEndpointUpdate}/` + toggle;
     const data = { anonymousId: id };
 
-    const response = await this.session.request("post", endPoint, { data }, false);
+    const response = await this.session.request("post", endPoint, {
+      headers: { "Content-Type": "application/json" },
+      data,
+    }, false);
     if (response.data.success === false) {
       console.log("Changing email status failed: ", response.data);
       throw new iCloudAPIResponseError(response.data.error.errorMessage, response.data.error.errorCode);
@@ -62,7 +67,10 @@ export class HideMyEmailService {
   async updateMetaData(id: string, newMetaData: MetaData) {
     const endPoint = `${this.emailEndpointUpdate}/updateMetaData`;
     const data = { anonymousId: id, ...newMetaData };
-    const response = await this.session.request("post", endPoint, { data }, false);
+    const response = await this.session.request("post", endPoint, {
+      headers: { "Content-Type": "application/json" },
+      data,
+    }, false);
 
     if (response.data.success === false) {
       console.log("Updating meta data failed: ", response.data);
@@ -74,7 +82,10 @@ export class HideMyEmailService {
     const endPoint = `${this.emailEndpointUpdate}/delete`;
     const data = { anonymousId: id };
 
-    const response = await this.session.request("post", endPoint, { data }, false);
+    const response = await this.session.request("post", endPoint, {
+      headers: { "Content-Type": "application/json" },
+      data,
+    }, false);
     if (response.data.success === false) {
       console.log("Deleting address failed: ", response.data);
       throw new iCloudAPIResponseError(response.data.error.errorMessage, response.data.error?.errorCode);
@@ -84,7 +95,10 @@ export class HideMyEmailService {
   async generateAddress() {
     const endPoint = `${this.emailEndpointUpdate}/generate`;
 
-    const response = await this.session.request("post", endPoint, {}, false);
+    const response = await this.session.request("post", endPoint, {
+      headers: { "Content-Type": "application/json" },
+      data: {},
+    }, false);
     if (response.data.success === false) {
       console.log("Generating address failed: ", response.data);
       throw new iCloudAPIResponseError(response.data.error.errorMessage, response.data.error?.errorCode);
@@ -98,7 +112,10 @@ export class HideMyEmailService {
     const endPoint = `${this.emailEndpointUpdate}/reserve`;
     const data = { hme: address, ...metaData };
 
-    const response = await this.session.request("post", endPoint, { data }, false);
+    const response = await this.session.request("post", endPoint, {
+      headers: { "Content-Type": "application/json" },
+      data,
+    }, false);
     if (response.data.success === false) {
       console.log("Adding address failed: ", response.data);
       throw new iCloudAPIResponseError(response.data.error.errorMessage, response.data.error?.errorCode);
