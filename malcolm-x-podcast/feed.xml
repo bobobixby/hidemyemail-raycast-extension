@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
   <channel>
+<image><url>https://pbs.twimg.com/media/HFFEa8qWgAAyeS0.jpg?name=orig</url><title>Malcolm X — Archival Audio</title><link>https://raw.githubusercontent.com/bobobixby/hidemyemail-raycast-extension/main/malcolm-x-podcast/feed.xml</link></image>
+<itunes:image href="https://pbs.twimg.com/media/HFFEa8qWgAAyeS0.jpg?name=orig"/>
     <title>Malcolm X — Archival Audio</title>
     <link>https://www.alkalimat.org/brothermalcolm/whathesaidarchive.html</link>
     <description>Personal listening index of original Malcolm X speech recordings, one continuous MP3 per speech. Audio linked from third-party archives; not affiliated with the sources.</description>
