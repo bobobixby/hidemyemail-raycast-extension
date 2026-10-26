@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<title>Malcolm X — Archival Audio</title>
+<link>https://archive.tuskegee.edu/repository/digital-collection/audio-collections/civil-rights/malcolm-x-in-harlem-1963/</link>
+<description>Personal podcast listening index of archival Malcolm X recordings. All audio remains hosted by the original archives. Not affiliated with the archives.</description>
+<language>en-us</language>
+<itunes:author>Malcolm X (archival recordings)</itunes:author>
+<itunes:explicit>false</itunes:explicit>
+<atom:link href="https://raw.githubusercontent.com/bobobixby/hidemyemail-raycast-extension/main/malcolm-x-podcast/feed.xml" rel="self" type="application/rss+xml"/>
+<item>
+<title>Malcolm X in Harlem (1963) — archival edited recording</title>
+<link>https://archive.tuskegee.edu/repository/digital-collection/audio-collections/civil-rights/malcolm-x-in-harlem-1963/</link>
+<description>From Tuskegee University Archives. Archive identifies the original as an edited recording, not an uncut speech.</description>
+<guid isPermaLink="false">malcolm-x-harlem-1963-tuskegee-archive</guid>
+<pubDate>Mon, 26 Oct 2026 12:00:00 GMT</pubDate>
+<enclosure url="https://archive.tuskegee.edu/repository/wp-content/uploads/2021/06/Malcolm-X-in-Harlem-1963.mp3" length="0" type="audio/mpeg"/>
+</item>
+</channel>
+</rss>
